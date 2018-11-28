@@ -1,5 +1,5 @@
 # Smack-Android-Model-View-Presenter-
-This is Android version of the Smack-iOS(https://github.com/mdadil2019/Smack-iOS) app which is developed with MVP architecture
+This is Android version of the Smack-iOS(https://github.com/mdadil2019/Smack-iOS) app which is in development with MVP architecture
 
 Architecture: Model View Presenter
 
@@ -75,7 +75,7 @@ Presenter
   - Data Manager (Interface) extend AppPreferenceHelper, APIHelper 
   - AppDataManager implements DataManager
   
-*Note: All the methods of APIHelper, PreferencesHelper & RoomDB will be called from data manager by providing the required dependencies by Dagger *
+*Note: All the methods of APIHelper, PreferencesHelper & RoomDB will be called from data manager by providing the required dependencies by Dagger*
 
 **Dependency Injection (di)**
 1. Modules
