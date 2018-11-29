@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/imageView5"
+        android:layout_width="68dp"
+        android:layout_height="68dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="9dp"
+        android:layout_marginLeft="9dp"
+        android:layout_marginTop="5dp"
+        app:srcCompat="@mipmap/profiledefault" />
+
+    <TextView
+        android:id="@+id/textViewUserName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/imageView5"
+        android:layout_marginLeft="10dp"
+        android:layout_toEndOf="@+id/imageView5"
+        android:text="Mohammad Adil"
+        android:textStyle="bold"
+        app:fontFamily="@font/averia_sans_libre" />
+
+    <TextView
+        android:id="@+id/textViewTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/imageView5"
+        android:layout_marginLeft="30dp"
+        android:layout_toEndOf="@+id/textViewUserName"
+        android:text="11:25AM"
+        app:fontFamily="@font/averia_sans_libre" />
+
+    <TextView
+        android:id="@+id/textViewMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textViewUserName"
+        android:layout_alignStart="@+id/textViewUserName"
+        android:layout_marginTop="10dp"
+        android:text="Hello, This is a mesage"
+        android:textSize="18sp"
+        app:fontFamily="@font/averia_sans_libre" />
+</RelativeLayout>
