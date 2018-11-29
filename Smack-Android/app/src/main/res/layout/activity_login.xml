@@ -9,12 +9,12 @@
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="28dp"
-        android:layout_height="28dp"
+        android:layout_width="@dimen/backBtnImageSize"
+        android:layout_height="@dimen/backBtnImageSize"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_marginTop="11dp"
+        android:layout_marginTop="15dp"
         android:layout_marginEnd="15dp"
         android:layout_marginRight="15dp"
         app:srcCompat="@mipmap/closebtn" />
