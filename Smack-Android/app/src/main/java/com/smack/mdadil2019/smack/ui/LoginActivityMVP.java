@@ -16,7 +16,7 @@ public interface LoginActivityMVP {
 
         void setLoginStatus(boolean loginStatus);
 
-        boolean login(String userName,String password);
+        void login(String userName,String password);
     }
 
     interface Model{
