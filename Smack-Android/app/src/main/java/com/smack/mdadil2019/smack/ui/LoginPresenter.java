@@ -61,4 +61,9 @@ public class LoginPresenter implements LoginActivityMVP.Presenter {
             view.showMessage("Please enter credentials to login");
         }
     }
+
+    @Override
+    public void openSignUpActivity() {
+        view.signUpActivity();
+    }
 }

@@ -1,5 +1,6 @@
 package com.smack.mdadil2019.smack.ui;
 
+import android.content.Intent;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -39,6 +40,10 @@ public class LoginActivity extends AppCompatActivity  implements LoginActivityMV
         presenter.login(userName,password);
     }
 
+    @OnClick(R.id.textViewSignup)void signUpTouched(){
+        presenter.openSignUpActivity();
+    }
+
 
     @Override
     protected void onResume() {
@@ -47,17 +52,13 @@ public class LoginActivity extends AppCompatActivity  implements LoginActivityMV
     }
 
     @Override
-    public String getUserName() {
-        return userNameEt.getText().toString();
-    }
-
-    @Override
-    public String getPassword() {
-        return passwordEt.getText().toString();
-    }
-
-    @Override
     public void showMessage(String message) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
+
+    @Override
+    public void signUpActivity() {
+        startActivity(new Intent(this,RegistrationActivity.class));
+    }
+
 }

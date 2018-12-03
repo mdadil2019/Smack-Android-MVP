@@ -1,5 +1,7 @@
 package com.smack.mdadil2019.smack.di;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.smack.mdadil2019.smack.data.network.ApiEndPoint;
 import com.smack.mdadil2019.smack.data.network.LoginService;
 import com.smack.mdadil2019.smack.data.network.model.LoginRequest;
@@ -9,6 +11,7 @@ import com.smack.mdadil2019.smack.ui.LoginPresenter;
 
 import java.util.concurrent.TimeUnit;
 
+import javax.inject.Named;
 import javax.inject.Singleton;
 
 import dagger.Module;
@@ -33,15 +36,22 @@ public class LoginActivityModule {
 
     @Provides
     public LoginService provideLoginService(){
-        return provideRetrofit(ApiEndPoint.BASE_URL,provideOkHttpClient()).create(LoginService.class);
+        return provideRetrofit(provideOkHttpClient(),provideGson()).create(LoginService.class);
+    }
+
+
+    @Provides
+    public Retrofit provideRetrofit( OkHttpClient okHttpClient, Gson gson){
+        return new Retrofit.Builder()
+                .baseUrl(ApiEndPoint.BASE_URL)
+                .client(okHttpClient)
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .build();
     }
 
     @Provides
-    public Retrofit provideRetrofit(String base_url, OkHttpClient okHttpClient){
-        return new Retrofit.Builder()
-                .baseUrl(base_url)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
+    public Gson provideGson(){
+        return new GsonBuilder().setLenient().create();
     }
 
     @Provides

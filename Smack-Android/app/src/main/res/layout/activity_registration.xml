@@ -31,7 +31,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/colorAccent"
-            android:hint="Username" />
+            android:hint="Username"
+            android:id="@+id/textInputUserNameReg"/>
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
@@ -47,7 +48,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Password"
-            android:backgroundTint="@color/colorAccent"/>
+            android:backgroundTint="@color/colorAccent"
+            android:id="@+id/textInputPasswordReg"/>
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
@@ -63,7 +65,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Email"
-            android:backgroundTint="@color/colorAccent"/>
+            android:backgroundTint="@color/colorAccent"
+            android:id="@+id/textInputEmailReg"/>
     </android.support.design.widget.TextInputLayout>
 
     <ImageView
