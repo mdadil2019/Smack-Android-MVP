@@ -9,6 +9,10 @@ public interface RegistrationActivityMVP {
         String getPassword();
 
         String getUserName();
+
+        void openAvatarPicker();
+
+        void changeColor();
     }
 
     interface Presenter{

@@ -9,4 +9,6 @@ public final class ApiEndPoint {
 
     public static final String ENDPOINT_SERVER_REGISTER = BASE_URL + "account/register";
 
+    public static final String ENDPOINT_SERVER_CREATE = BASE_URL + "user/add";
+
 }

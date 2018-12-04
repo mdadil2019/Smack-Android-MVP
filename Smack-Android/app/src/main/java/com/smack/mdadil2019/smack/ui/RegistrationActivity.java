@@ -3,10 +3,13 @@ package com.smack.mdadil2019.smack.ui;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.smack.mdadil2019.smack.R;
 import com.smack.mdadil2019.smack.di.root.MyApp;
+
+import java.util.Random;
 
 import javax.inject.Inject;
 
@@ -29,6 +32,9 @@ public class RegistrationActivity extends AppCompatActivity implements Registrat
     @BindView(R.id.textInputPasswordReg)
     TextInputEditText passwordEt;
 
+    @BindView(R.id.profileImageView)
+    ImageView profileIv;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,7 +51,7 @@ public class RegistrationActivity extends AppCompatActivity implements Registrat
         presenter.pickAvatar();
     }
 
-    @OnClick(R.id.textViewGenerateAvatarColor)void changeColor(){
+    @OnClick(R.id.textViewGenerateAvatarColor)void changeColorTapped(){
         presenter.changeAvatarColor();
     }
 
@@ -73,5 +79,20 @@ public class RegistrationActivity extends AppCompatActivity implements Registrat
     @Override
     public String getUserName() {
         return userNameEt.getText().toString();
+    }
+
+    @Override
+    public void openAvatarPicker() {
+        /*
+        1. Create hidden fragment over register activity
+        2. VISIBLE when picker selected
+        3. Fragment will contain the tab + grid view for images/avatars
+         */
+
+    }
+
+    @Override
+    public void changeColor() {
+//        profileIv.setBackground();
     }
 }

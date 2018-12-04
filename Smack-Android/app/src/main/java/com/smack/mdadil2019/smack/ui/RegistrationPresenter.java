@@ -16,6 +16,9 @@ public class RegistrationPresenter implements RegistrationActivityMVP.Presenter 
     RegistrationService registrationService;
     RegistrationRequest registrationRequest;
 
+    String avatarName;
+    String avatarColor;
+
     public RegistrationPresenter(RegistrationRequest regRequest, RegistrationService regService){
         registrationRequest = regRequest;
         registrationService = regService;
@@ -34,6 +37,14 @@ public class RegistrationPresenter implements RegistrationActivityMVP.Presenter 
                 public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                     try {
                         view.showMessage(response.body().string());
+                        if(response.body().string().contains("success")){
+                            //send create user request with avatarColor and name
+                            if(avatarName!=null && !avatarName.equals("")){
+
+                            }else{
+                                view.showMessage("Please select any avatar");
+                            }
+                        }
                     } catch (IOException e) {
                         e.printStackTrace();
                         view.showMessage(e.getMessage());
@@ -52,12 +63,12 @@ public class RegistrationPresenter implements RegistrationActivityMVP.Presenter 
 
     @Override
     public void pickAvatar() {
-
+        view.openAvatarPicker();
     }
 
     @Override
     public void changeAvatarColor() {
-
+        view.changeColor();
     }
 
     @Override
