@@ -12,5 +12,5 @@ import retrofit2.http.POST;
 public interface LoginService {
     @POST(ApiEndPoint.ENDPOINT_SERVER_LOGIN)
     @Headers(ApiHeaders.HEADER)
-    Call<LoginResponse> loginRequest(@Body LoginRequest loginRequest);
+    Observable<LoginResponse> loginRequest(@Body LoginRequest loginRequest);
 }

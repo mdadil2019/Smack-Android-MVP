@@ -45,18 +45,18 @@ public class LoginPresenter implements LoginActivityMVP.Presenter {
         if(userName!=null && password!=null){
             loginRequest.setEmail(userName);
             loginRequest.setPassword(password);
-            Call<LoginResponse> loginResponse = loginService.loginRequest(loginRequest);
-            loginResponse.enqueue(new Callback<LoginResponse>() {
-                @Override
-                public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
-                    view.showMessage("WELCOME " + response.body().getUser());
-                }
-
-                @Override
-                public void onFailure(Call<LoginResponse> call, Throwable t) {
-                    view.showMessage(t.getMessage());
-                }
-            });
+//            Call<LoginResponse> loginResponse = loginService.loginRequest(loginRequest);
+//            loginResponse.enqueue(new Callback<LoginResponse>() {
+//                @Override
+//                public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+//                    view.showMessage("WELCOME " + response.body().getUser());
+//                }
+//
+//                @Override
+//                public void onFailure(Call<LoginResponse> call, Throwable t) {
+//                    view.showMessage(t.getMessage());
+//                }
+//            });
         }else{
             view.showMessage("Please enter credentials to login");
         }
