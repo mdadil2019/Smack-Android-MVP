@@ -61,4 +61,10 @@ public class LoginActivity extends AppCompatActivity  implements LoginActivityMV
         startActivity(new Intent(this,RegistrationActivity.class));
     }
 
+    @Override
+    public void openNavigationDrawer() {
+        startActivity(new Intent(this,NavDrawer.class));
+        finish();
+    }
+
 }

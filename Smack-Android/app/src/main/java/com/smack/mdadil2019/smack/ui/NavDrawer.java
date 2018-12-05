@@ -1,8 +1,13 @@
 package com.smack.mdadil2019.smack.ui;
 
+import android.app.Dialog;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.design.widget.TextInputEditText;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.view.Gravity;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -12,16 +17,43 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.smack.mdadil2019.smack.R;
+import com.smack.mdadil2019.smack.data.network.model.ChannelResponse;
+import com.smack.mdadil2019.smack.di.root.MyApp;
+
+import javax.inject.Inject;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class NavDrawer extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavDrawerMVP.View, NavigationView.OnNavigationItemSelectedListener {
 
+    TextView addChannelTv;
+
+    TextInputEditText channelNameEt;
+
+    TextInputEditText channelDescEt;
+
+    @BindView(R.id.navRecyclerView)
+    RecyclerView recyclerView;
+    NavigationView navigationView;
+
+    @Inject
+    NavDrawerMVP.Presenter presenter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nav_drawer);
+        ButterKnife.bind(this);
+
+        ((MyApp)getApplication()).getApplicationComponent().inject(this);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -39,9 +71,32 @@ public class NavDrawer extends AppCompatActivity
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
+        drawer.openDrawer(Gravity.LEFT);
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        View view = navigationView.getHeaderView(0);
+        TextView addTv = view.findViewById(R.id.textViewAddChannel);
+        addTv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Dialog dialog = new Dialog(NavDrawer.this);
+                dialog.setContentView(R.layout.create_channel_layout);
+                dialog.show();
+
+                channelDescEt = dialog.findViewById(R.id.textInputChannelDesc);
+                channelNameEt = dialog.findViewById(R.id.textInputChannelName);
+
+                Button createBtn = dialog.findViewById(R.id.createChannelBtn);
+                createBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        presenter.createChannel();
+                    }
+                });
+            }
+        });
+
     }
 
     @Override
@@ -87,5 +142,53 @@ public class NavDrawer extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    public void createChannelTapped() {
+
+    }
+
+
+    @Override
+    public void updateRecyclerView() {
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
+
+    }
+
+    @Override
+    public void showUIMessage(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public String getCreateChannelName() {
+
+        return channelNameEt.getText().toString();
+    }
+
+    @Override
+    public String getCreateChannelDescription() {
+        return channelDescEt.getText().toString();
+    }
+
+    @Override
+    public void notifyAdapter() {
+
+    }
+
+
+    @Override
+    public void addChannelInList(ChannelResponse channelResponse) {
+        Menu menu = navigationView.getMenu();
+        menu.add(channelResponse.getChannelName());
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        presenter.setView(this);
+        presenter.loadChannels();
     }
 }

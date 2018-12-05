@@ -102,6 +102,7 @@ public class RegistrationPresenter implements RegistrationActivityMVP.Presenter 
                 @Override
                 public void onComplete() {
                     view.showMessage("Completed: observing");
+                    view.openNavigationDrawer();
                 }
             });
         }else{

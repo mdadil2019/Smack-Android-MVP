@@ -9,6 +9,11 @@ import com.smack.mdadil2019.smack.data.network.model.LoginRequest;
 import com.smack.mdadil2019.smack.data.network.model.LoginResponse;
 import com.smack.mdadil2019.smack.ui.LoginActivityMVP.View;
 
+import io.reactivex.Observable;
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -17,6 +22,7 @@ public class LoginPresenter implements LoginActivityMVP.Presenter {
 
     LoginService loginService;
     LoginRequest loginRequest;
+    Disposable disposable;
 
     public LoginPresenter(LoginService loginApiService, LoginRequest loginReq){
         loginService = loginApiService;
@@ -45,18 +51,30 @@ public class LoginPresenter implements LoginActivityMVP.Presenter {
         if(userName!=null && password!=null){
             loginRequest.setEmail(userName);
             loginRequest.setPassword(password);
-//            Call<LoginResponse> loginResponse = loginService.loginRequest(loginRequest);
-//            loginResponse.enqueue(new Callback<LoginResponse>() {
-//                @Override
-//                public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
-//                    view.showMessage("WELCOME " + response.body().getUser());
-//                }
-//
-//                @Override
-//                public void onFailure(Call<LoginResponse> call, Throwable t) {
-//                    view.showMessage(t.getMessage());
-//                }
-//            });
+            Observable<LoginResponse> loginResponse = loginService.loginRequest(loginRequest);
+            loginResponse.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<LoginResponse>() {
+                @Override
+                public void onSubscribe(Disposable d) {
+                    disposable = d;
+                }
+
+                @Override
+                public void onNext(LoginResponse loginResponse) {
+                    view.showMessage("Welcome " + loginResponse.getUser());
+                }
+
+                @Override
+                public void onError(Throwable e) {
+
+                }
+
+                @Override
+                public void onComplete() {
+                    view.showMessage("Login successful");
+                    disposable.dispose();
+                    view.openNavigationDrawer();
+                }
+            });
         }else{
             view.showMessage("Please enter credentials to login");
         }

@@ -6,6 +6,8 @@ public interface LoginActivityMVP {
         void showMessage(String message);
 
         void signUpActivity();
+
+        void openNavigationDrawer();
     }
 
     interface Presenter{

@@ -13,6 +13,8 @@ public interface RegistrationActivityMVP {
         void openAvatarPicker();
 
         void changeColor();
+
+        void openNavigationDrawer();
     }
 
     interface Presenter{

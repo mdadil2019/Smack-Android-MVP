@@ -1,5 +1,6 @@
 package com.smack.mdadil2019.smack.ui;
 
+import android.content.Intent;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -19,6 +20,7 @@ import butterknife.OnClick;
 import retrofit2.http.Body;
 
 public class RegistrationActivity extends AppCompatActivity implements RegistrationActivityMVP.View {
+
 
     @Inject
     RegistrationActivityMVP.Presenter presenter;
@@ -94,5 +96,11 @@ public class RegistrationActivity extends AppCompatActivity implements Registrat
     @Override
     public void changeColor() {
 //        profileIv.setBackground();
+    }
+
+    @Override
+    public void openNavigationDrawer() {
+        startActivity(new Intent(this,NavDrawer.class));
+        finish();
     }
 }
