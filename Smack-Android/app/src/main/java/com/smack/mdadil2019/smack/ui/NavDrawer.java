@@ -180,9 +180,15 @@ public class NavDrawer extends AppCompatActivity
 
 
     @Override
-    public void addChannelInList(ChannelResponse channelResponse) {
-        Menu menu = navigationView.getMenu();
-        menu.add(channelResponse.getChannelName());
+    public void addChannelInList(final ChannelResponse channelResponse) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+
+                Menu menu = navigationView.getMenu();
+                menu.add(channelResponse.getChannelName());
+            }
+        });
     }
 
     @Override

@@ -46,6 +46,8 @@ public class NavDrawerPresenter implements NavDrawerMVP.Presenter {
                 channelResponse.setChannelName(String.valueOf(args[0]));
                 channelResponse.setChannelDesc(String.valueOf(args[1]));
                 channelResponse.setChannelId(String.valueOf(args[2]));
+
+                //creating an issue #Bug1
                 view.addChannelInList(channelResponse);
 
             }
