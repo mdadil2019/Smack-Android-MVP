@@ -11,4 +11,9 @@ public final class ApiEndPoint {
 
     public static final String ENDPOINT_SERVER_CREATE = BASE_URL + "user/add";
 
+
+    public static final String ENDPOINT_GET_ALL_CHANNELS = BASE_URL + "channel/";
+
+    public static final String ENDPOINT_GET_ALL_MESSAGES_OF_CHANNEL = BASE_URL + "message/byChannel/";
+
 }

@@ -25,11 +25,12 @@ import com.smack.mdadil2019.smack.R;
 import com.smack.mdadil2019.smack.data.network.model.ChannelResponse;
 import com.smack.mdadil2019.smack.di.root.MyApp;
 
+import java.util.ArrayList;
+
 import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 public class NavDrawer extends AppCompatActivity
         implements NavDrawerMVP.View, NavigationView.OnNavigationItemSelectedListener {
@@ -123,6 +124,7 @@ public class NavDrawer extends AppCompatActivity
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
+
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
@@ -137,8 +139,14 @@ public class NavDrawer extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
+        /*
+        1. Send chat messages reqeusts for particular channel using RxJava
+        2. store the response in chat model (retrofit)
+        3. onNext -> pass the chat into adapter and notify the adapter about itemAddition
 
-
+         */
+        String name = item.toString();
+        presenter.openChatRoom(name);
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
@@ -180,13 +188,14 @@ public class NavDrawer extends AppCompatActivity
 
 
     @Override
-    public void addChannelInList(final ChannelResponse channelResponse) {
+    public void addChannelInList(final ArrayList<ChannelResponse> channelResponses) {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-
-                Menu menu = navigationView.getMenu();
-                menu.add(channelResponse.getChannelName());
+                for(ChannelResponse response : channelResponses){
+                    Menu menu = navigationView.getMenu();
+                    menu.add(response.getChannelName());
+                }
             }
         });
     }
@@ -195,6 +204,6 @@ public class NavDrawer extends AppCompatActivity
     protected void onResume() {
         super.onResume();
         presenter.setView(this);
-        presenter.loadChannels();
+        presenter.getAllChannels();
     }
 }

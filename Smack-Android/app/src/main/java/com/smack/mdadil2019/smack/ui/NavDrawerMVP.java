@@ -2,6 +2,8 @@ package com.smack.mdadil2019.smack.ui;
 
 import com.smack.mdadil2019.smack.data.network.model.ChannelResponse;
 
+import java.util.ArrayList;
+
 public interface NavDrawerMVP {
 
     interface View{
@@ -17,7 +19,7 @@ public interface NavDrawerMVP {
 
         void showUIMessage(String message);
 
-        void addChannelInList(ChannelResponse channelResponse);
+        void addChannelInList(ArrayList<ChannelResponse> channelResponses);
 
 
     }
@@ -31,6 +33,8 @@ public interface NavDrawerMVP {
 
         void setView(View view);
 
-        void loadChannels();
+        void loadAddedChannels();
+
+        void getAllChannels();
     }
 }
