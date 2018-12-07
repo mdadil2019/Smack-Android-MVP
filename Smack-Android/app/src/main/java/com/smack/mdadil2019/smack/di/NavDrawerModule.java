@@ -4,8 +4,8 @@ import com.smack.mdadil2019.smack.data.network.ChannelService;
 import com.smack.mdadil2019.smack.data.network.MessageService;
 import com.smack.mdadil2019.smack.data.network.model.ChannelResponse;
 import com.smack.mdadil2019.smack.data.prefs.AppPreferencesHelper;
-import com.smack.mdadil2019.smack.ui.NavDrawerMVP;
-import com.smack.mdadil2019.smack.ui.NavDrawerPresenter;
+import com.smack.mdadil2019.smack.ui.chat.NavDrawerMVP;
+import com.smack.mdadil2019.smack.ui.chat.NavDrawerPresenter;
 
 import dagger.Module;
 import dagger.Provides;

@@ -1,4 +1,4 @@
-package com.smack.mdadil2019.smack.ui;
+package com.smack.mdadil2019.smack.ui.chat;
 
 import android.app.Dialog;
 import android.os.Bundle;
@@ -22,7 +22,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.smack.mdadil2019.smack.R;
+import com.smack.mdadil2019.smack.adapter.ChatAdapter;
 import com.smack.mdadil2019.smack.data.network.model.ChannelResponse;
+import com.smack.mdadil2019.smack.data.network.model.MessageResponse;
 import com.smack.mdadil2019.smack.di.root.MyApp;
 
 import java.util.ArrayList;
@@ -43,6 +45,10 @@ public class NavDrawer extends AppCompatActivity
 
     @BindView(R.id.navRecyclerView)
     RecyclerView recyclerView;
+
+    @BindView(R.id.textViewSelectChannelLabel)
+            TextView selectChannelLabel;
+
     NavigationView navigationView;
 
     @Inject
@@ -159,10 +165,12 @@ public class NavDrawer extends AppCompatActivity
 
 
     @Override
-    public void updateRecyclerView() {
+    public void updateRecyclerView(ArrayList<MessageResponse> responses) {
+        selectChannelLabel.setVisibility(View.INVISIBLE);
+        ChatAdapter chatAdapter = new ChatAdapter(responses,this);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
-
+        recyclerView.setAdapter(chatAdapter);
     }
 
     @Override

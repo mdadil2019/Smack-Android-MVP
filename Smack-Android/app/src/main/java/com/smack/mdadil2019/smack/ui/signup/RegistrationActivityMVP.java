@@ -1,4 +1,4 @@
-package com.smack.mdadil2019.smack.ui;
+package com.smack.mdadil2019.smack.ui.signup;
 
 public interface RegistrationActivityMVP {
     interface View{

@@ -1,6 +1,4 @@
-package com.smack.mdadil2019.smack.ui;
-
-import android.content.SharedPreferences;
+package com.smack.mdadil2019.smack.ui.signup;
 
 import com.smack.mdadil2019.smack.data.network.CreateUserService;
 import com.smack.mdadil2019.smack.data.network.LoginService;
@@ -12,20 +10,14 @@ import com.smack.mdadil2019.smack.data.network.model.LoginResponse;
 import com.smack.mdadil2019.smack.data.network.model.RegistrationRequest;
 import com.smack.mdadil2019.smack.data.prefs.AppPreferencesHelper;
 
-import java.io.IOException;
-
 import io.reactivex.Observable;
 import io.reactivex.ObservableSource;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 import okhttp3.ResponseBody;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class RegistrationPresenter implements RegistrationActivityMVP.Presenter {
 

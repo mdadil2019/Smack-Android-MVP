@@ -1,4 +1,4 @@
-package com.smack.mdadil2019.smack.ui;
+package com.smack.mdadil2019.smack.ui.login;
 
 import android.content.Intent;
 import android.support.design.widget.TextInputEditText;
@@ -8,6 +8,8 @@ import android.widget.Toast;
 
 import com.smack.mdadil2019.smack.R;
 import com.smack.mdadil2019.smack.di.root.MyApp;
+import com.smack.mdadil2019.smack.ui.chat.NavDrawer;
+import com.smack.mdadil2019.smack.ui.signup.RegistrationActivity;
 
 import javax.inject.Inject;
 

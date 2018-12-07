@@ -3,9 +3,9 @@ package com.smack.mdadil2019.smack.di.root;
 import com.smack.mdadil2019.smack.di.LoginActivityModule;
 import com.smack.mdadil2019.smack.di.NavDrawerModule;
 import com.smack.mdadil2019.smack.di.RegistrationActivityModule;
-import com.smack.mdadil2019.smack.ui.LoginActivity;
-import com.smack.mdadil2019.smack.ui.NavDrawer;
-import com.smack.mdadil2019.smack.ui.RegistrationActivity;
+import com.smack.mdadil2019.smack.ui.login.LoginActivity;
+import com.smack.mdadil2019.smack.ui.chat.NavDrawer;
+import com.smack.mdadil2019.smack.ui.signup.RegistrationActivity;
 
 import dagger.Component;
 

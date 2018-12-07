@@ -1,13 +1,11 @@
-package com.smack.mdadil2019.smack.ui;
+package com.smack.mdadil2019.smack.ui.chat;
 
-import com.smack.mdadil2019.smack.data.network.ApiEndPoint;
 import com.smack.mdadil2019.smack.data.network.ChannelService;
 import com.smack.mdadil2019.smack.data.network.MessageService;
 import com.smack.mdadil2019.smack.data.network.model.ChannelResponse;
 import com.smack.mdadil2019.smack.data.network.model.MessageResponse;
 import com.smack.mdadil2019.smack.data.prefs.AppPreferencesHelper;
 
-import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 
@@ -18,7 +16,6 @@ import io.reactivex.schedulers.Schedulers;
 import io.socket.client.IO;
 import io.socket.client.Manager;
 import io.socket.client.Socket;
-import io.socket.client.Url;
 import io.socket.emitter.Emitter;
 
 public class NavDrawerPresenter implements NavDrawerMVP.Presenter {
@@ -131,7 +128,14 @@ public class NavDrawerPresenter implements NavDrawerMVP.Presenter {
 
     @Override
     public void openChatRoom(String channelName) {
-        mMessageService.getAllMessages("Bearer "+ channelName,"application/json; charset=utf-8")
+        String id = "";
+        for(ChannelResponse res : channels){
+            if(res.getChannelName().equals(channelName)){
+                id = res.getChannelId();
+                break;
+            }
+        }
+        mMessageService.getAllMessages(id,"Bearer "+ sharedPrefs.getAuthToken(),"application/json; charset=utf-8")
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<ArrayList<MessageResponse>>() {
@@ -153,7 +157,7 @@ public class NavDrawerPresenter implements NavDrawerMVP.Presenter {
                     @Override
                     public void onComplete() {
                         //pass data to adapter to populate the messages
-
+                        view.updateRecyclerView(messages);
                     }
                 });
     }

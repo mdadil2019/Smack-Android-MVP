@@ -1,4 +1,4 @@
-package com.smack.mdadil2019.smack.ui;
+package com.smack.mdadil2019.smack.ui.signup;
 
 import android.content.Intent;
 import android.support.design.widget.TextInputEditText;
@@ -9,15 +9,13 @@ import android.widget.Toast;
 
 import com.smack.mdadil2019.smack.R;
 import com.smack.mdadil2019.smack.di.root.MyApp;
-
-import java.util.Random;
+import com.smack.mdadil2019.smack.ui.chat.NavDrawer;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import retrofit2.http.Body;
 
 public class RegistrationActivity extends AppCompatActivity implements RegistrationActivityMVP.View {
 

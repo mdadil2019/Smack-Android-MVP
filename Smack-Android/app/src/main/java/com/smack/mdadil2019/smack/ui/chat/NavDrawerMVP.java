@@ -1,13 +1,14 @@
-package com.smack.mdadil2019.smack.ui;
+package com.smack.mdadil2019.smack.ui.chat;
 
 import com.smack.mdadil2019.smack.data.network.model.ChannelResponse;
+import com.smack.mdadil2019.smack.data.network.model.MessageResponse;
 
 import java.util.ArrayList;
 
 public interface NavDrawerMVP {
 
     interface View{
-        void updateRecyclerView();
+        void updateRecyclerView(ArrayList<MessageResponse> messageResponses);
 
         String getCreateChannelName();
 

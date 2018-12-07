@@ -1,22 +1,16 @@
-package com.smack.mdadil2019.smack.ui;
+package com.smack.mdadil2019.smack.ui.login;
 
-
-import android.content.Context;
-import android.widget.Toast;
 
 import com.smack.mdadil2019.smack.data.network.LoginService;
 import com.smack.mdadil2019.smack.data.network.model.LoginRequest;
 import com.smack.mdadil2019.smack.data.network.model.LoginResponse;
-import com.smack.mdadil2019.smack.ui.LoginActivityMVP.View;
+import com.smack.mdadil2019.smack.ui.login.LoginActivityMVP.View;
 
 import io.reactivex.Observable;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class LoginPresenter implements LoginActivityMVP.Presenter {
 
