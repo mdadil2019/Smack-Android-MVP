@@ -83,6 +83,10 @@ public class RegistrationPresenter implements RegistrationActivityMVP.Presenter 
 
                 @Override
                 public void onNext(CreateUserResponse createUserResponse) {
+                    sharedPreferences.saveId(createUserResponse.getId());
+                    sharedPreferences.saveUserName(createUserResponse.getName());
+                    sharedPreferences.saveAvatarColor(createUserResponse.getAvatarColor());
+                    sharedPreferences.saveAvatarName(createUserResponse.getAvatarName());
                     view.showMessage(createUserResponse.getEmail());
                 }
 

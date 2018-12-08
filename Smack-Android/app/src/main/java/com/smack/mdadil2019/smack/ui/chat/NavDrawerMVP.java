@@ -30,12 +30,14 @@ public interface NavDrawerMVP {
 
         void createChannel();
 
-        void sendMessage(String channelId);
+        void sendMessage(String channelId,String message);
 
         void setView(View view);
 
         void loadAddedChannels();
 
         void getAllChannels();
+
+        void getMessage();
     }
 }

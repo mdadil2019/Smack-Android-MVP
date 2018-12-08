@@ -8,6 +8,8 @@ import com.smack.mdadil2019.smack.data.prefs.AppPreferencesHelper;
 
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Timer;
 
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -164,7 +166,41 @@ public class NavDrawerPresenter implements NavDrawerMVP.Presenter {
 
 
     @Override
-    public void sendMessage(String channelId) {
+    public void getMessage() {
+        mSocket.on("messageCreated", new Emitter.Listener() {
+            @Override
+            public void call(Object... args) {
+                MessageResponse messageResponse = new MessageResponse();
+                messageResponse.setMessageBody(args[0].toString());
+                messageResponse.setChannelId(args[2].toString());
+                messageResponse.setUserName(args[3].toString());
+//                messageResponse.setUserAvatar(args[4].toString());
+//                messageResponse.setAvatarColor(args[5].toString());
+                messageResponse.setTimeStamp(args[7].toString());
+                messages.add(messageResponse);
+                view.updateRecyclerView(messages);
+            }
+        });
+    }
 
+    @Override
+    public void sendMessage(String channelName,String messsge) {
+        if(messsge==null || messsge.equals("")){
+            view.showUIMessage("Please enter message to send");
+        }else{
+
+            String id = "";
+            for(ChannelResponse res : channels){
+                if(res.getChannelName().equals(channelName)){
+                    id = res.getChannelId();
+                    break;
+                }
+            }
+            String userId = sharedPrefs.getId();
+            String userName = sharedPrefs.getUserName();
+            String userAvatarName = sharedPrefs.getAvatarName();
+            String userAvatarColor = sharedPrefs.getAvatarColor();
+            mSocket.emit("newMessage", messsge,userId,id,userName,userAvatarName,userAvatarColor);
+        }
     }
 }

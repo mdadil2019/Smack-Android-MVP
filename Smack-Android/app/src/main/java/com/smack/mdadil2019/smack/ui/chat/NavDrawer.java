@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
@@ -18,6 +19,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,6 +35,7 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class NavDrawer extends AppCompatActivity
         implements NavDrawerMVP.View, NavigationView.OnNavigationItemSelectedListener {
@@ -49,10 +52,19 @@ public class NavDrawer extends AppCompatActivity
     @BindView(R.id.textViewSelectChannelLabel)
             TextView selectChannelLabel;
 
+    @BindView(R.id.editTextMessage)
+    EditText messageEt;
+
+    @BindView(R.id.cardView)
+    CardView cardView;
+
     NavigationView navigationView;
 
     @Inject
     NavDrawerMVP.Presenter presenter;
+    private String currentChannelName;
+    private ChatAdapter chatAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -105,6 +117,10 @@ public class NavDrawer extends AppCompatActivity
         });
 
     }
+    @OnClick(R.id.sendBtn)void sendMessage(){
+        String message = messageEt.getText().toString();
+        presenter.sendMessage(currentChannelName,message);
+    }
 
     @Override
     public void onBackPressed() {
@@ -151,12 +167,15 @@ public class NavDrawer extends AppCompatActivity
         3. onNext -> pass the chat into adapter and notify the adapter about itemAddition
 
          */
-        String name = item.toString();
-        presenter.openChatRoom(name);
+        currentChannelName = item.toString();
+        presenter.openChatRoom(currentChannelName);
+        presenter.getMessage();
+        cardView.setVisibility(View.VISIBLE);
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
 
     @Override
     public void createChannelTapped() {
@@ -165,12 +184,18 @@ public class NavDrawer extends AppCompatActivity
 
 
     @Override
-    public void updateRecyclerView(ArrayList<MessageResponse> responses) {
-        selectChannelLabel.setVisibility(View.INVISIBLE);
-        ChatAdapter chatAdapter = new ChatAdapter(responses,this);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setAdapter(chatAdapter);
+    public void updateRecyclerView(final ArrayList<MessageResponse> responses) {
+
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                selectChannelLabel.setVisibility(View.INVISIBLE);
+                chatAdapter = new ChatAdapter(responses,NavDrawer.this);
+                LinearLayoutManager layoutManager = new LinearLayoutManager(NavDrawer.this);
+                recyclerView.setLayoutManager(layoutManager);
+                recyclerView.setAdapter(chatAdapter);
+            }
+        });
     }
 
     @Override
