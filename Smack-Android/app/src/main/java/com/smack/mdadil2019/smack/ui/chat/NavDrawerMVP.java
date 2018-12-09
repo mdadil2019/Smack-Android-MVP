@@ -22,6 +22,12 @@ public interface NavDrawerMVP {
 
         void addChannelInList(ArrayList<ChannelResponse> channelResponses);
 
+        void clearMessageText();
+
+        void showProgressbar();
+
+        void hideProgressBar();
+
 
     }
 

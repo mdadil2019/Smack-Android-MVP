@@ -20,6 +20,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,6 +28,7 @@ import com.smack.mdadil2019.smack.R;
 import com.smack.mdadil2019.smack.adapter.ChatAdapter;
 import com.smack.mdadil2019.smack.data.network.model.ChannelResponse;
 import com.smack.mdadil2019.smack.data.network.model.MessageResponse;
+import com.smack.mdadil2019.smack.data.prefs.AppPreferencesHelper;
 import com.smack.mdadil2019.smack.di.root.MyApp;
 
 import java.util.ArrayList;
@@ -58,10 +60,19 @@ public class NavDrawer extends AppCompatActivity
     @BindView(R.id.cardView)
     CardView cardView;
 
+    @BindView(R.id.progressBarNav)
+            ProgressBar navProgressBar;
+
+
+
     NavigationView navigationView;
 
     @Inject
     NavDrawerMVP.Presenter presenter;
+
+    @Inject
+    AppPreferencesHelper prefs;
+
     private String currentChannelName;
     private ChatAdapter chatAdapter;
 
@@ -84,6 +95,7 @@ public class NavDrawer extends AppCompatActivity
                         .setAction("Action", null).show();
             }
         });
+        setTitle("Smack");
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -95,11 +107,14 @@ public class NavDrawer extends AppCompatActivity
         navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         View view = navigationView.getHeaderView(0);
+        TextView usernameTv = view.findViewById(R.id.textViewHeadUser);
+        usernameTv.setText(prefs.getUserName());
+
         TextView addTv = view.findViewById(R.id.textViewAddChannel);
         addTv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Dialog dialog = new Dialog(NavDrawer.this);
+                final Dialog dialog = new Dialog(NavDrawer.this);
                 dialog.setContentView(R.layout.create_channel_layout);
                 dialog.show();
 
@@ -111,6 +126,7 @@ public class NavDrawer extends AppCompatActivity
                     @Override
                     public void onClick(View v) {
                         presenter.createChannel();
+                        dialog.dismiss();
                     }
                 });
             }
@@ -121,6 +137,7 @@ public class NavDrawer extends AppCompatActivity
         String message = messageEt.getText().toString();
         presenter.sendMessage(currentChannelName,message);
     }
+
 
     @Override
     public void onBackPressed() {
@@ -169,7 +186,7 @@ public class NavDrawer extends AppCompatActivity
          */
         currentChannelName = item.toString();
         presenter.openChatRoom(currentChannelName);
-        presenter.getMessage();
+
         cardView.setVisibility(View.VISIBLE);
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
@@ -194,6 +211,7 @@ public class NavDrawer extends AppCompatActivity
                 LinearLayoutManager layoutManager = new LinearLayoutManager(NavDrawer.this);
                 recyclerView.setLayoutManager(layoutManager);
                 recyclerView.setAdapter(chatAdapter);
+                recyclerView.smoothScrollToPosition(responses.size());
             }
         });
     }
@@ -234,9 +252,35 @@ public class NavDrawer extends AppCompatActivity
     }
 
     @Override
+    public void showProgressbar() {
+        navProgressBar.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideProgressBar() {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                navProgressBar.setVisibility(View.INVISIBLE);
+            }
+        });
+
+    }
+
+
+
+    @Override
+    public void clearMessageText() {
+        messageEt.setText("");
+        messageEt.setHint("Enter you message...");
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
         presenter.setView(this);
         presenter.getAllChannels();
+        presenter.getMessage();
+        presenter.loadAddedChannels();
     }
 }

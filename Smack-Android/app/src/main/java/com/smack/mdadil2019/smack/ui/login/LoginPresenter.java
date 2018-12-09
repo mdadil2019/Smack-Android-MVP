@@ -43,6 +43,7 @@ public class LoginPresenter implements LoginActivityMVP.Presenter {
     @Override
     public void login(String userName, String password) {
         if(userName!=null && password!=null){
+            view.showProgressbar();
             loginRequest.setEmail(userName);
             loginRequest.setPassword(password);
             Observable<LoginResponse> loginResponse = loginService.loginRequest(loginRequest);
@@ -59,7 +60,8 @@ public class LoginPresenter implements LoginActivityMVP.Presenter {
 
                 @Override
                 public void onError(Throwable e) {
-
+                    view.showMessage(e.getMessage());
+                    view.hideProgressBar();
                 }
 
                 @Override
@@ -67,6 +69,7 @@ public class LoginPresenter implements LoginActivityMVP.Presenter {
                     view.showMessage("Login successful");
                     disposable.dispose();
                     view.openNavigationDrawer();
+                    view.hideProgressBar();
                 }
             });
         }else{

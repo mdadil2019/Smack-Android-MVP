@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.smack.mdadil2019.smack.R;
@@ -25,6 +27,10 @@ public class LoginActivity extends AppCompatActivity  implements LoginActivityMV
     @BindView(R.id.passwordInputTxt)
     TextInputEditText passwordEt;
 
+
+    @BindView(R.id.pgBarLogin)
+    ProgressBar loginPgBar;
+
     @Inject
     LoginActivityMVP.Presenter presenter;
 
@@ -44,6 +50,16 @@ public class LoginActivity extends AppCompatActivity  implements LoginActivityMV
 
     @OnClick(R.id.textViewSignup)void signUpTouched(){
         presenter.openSignUpActivity();
+    }
+
+    @Override
+    public void showProgressbar() {
+        loginPgBar.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideProgressBar() {
+        loginPgBar.setVisibility(View.INVISIBLE);
     }
 
 

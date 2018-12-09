@@ -50,6 +50,7 @@ public class RegistrationPresenter implements RegistrationActivityMVP.Presenter 
         final String password = view.getPassword();
         final String email = view.getEmail();
         if(!userName.equals("") && !password.equals("") && !email.equals("")){
+            view.showProgressbar();
             registrationRequest.setEmail(email);
             registrationRequest.setPassword(password);
             Observable<CreateUserResponse> response = registrationService.registerRequest(registrationRequest)
@@ -71,6 +72,7 @@ public class RegistrationPresenter implements RegistrationActivityMVP.Presenter 
                     createUserRequest.setEmail(email);
                     createUserRequest.setName(userName);
                     createUserRequest.setAvatarColor(avatarColor);
+                    avatarName = "dark" + (userName.length() % 27);
                     createUserRequest.setAvatarName(avatarName);
                     return createUserService.createUser(createUserRequest,"Bearer " + token,"application/json; charset=utf-8");
                 }
@@ -93,12 +95,13 @@ public class RegistrationPresenter implements RegistrationActivityMVP.Presenter 
                 @Override
                 public void onError(Throwable e) {
                     view.showMessage(e.getMessage());
+                    view.hideProgressBar();
                 }
 
                 @Override
                 public void onComplete() {
-                    view.showMessage("Completed: observing");
                     view.openNavigationDrawer();
+                    view.hideProgressBar();
                 }
             });
         }else{
@@ -106,15 +109,6 @@ public class RegistrationPresenter implements RegistrationActivityMVP.Presenter 
         }
     }
 
-    @Override
-    public void pickAvatar() {
-        view.openAvatarPicker();
-    }
-
-    @Override
-    public void changeAvatarColor() {
-        view.changeColor();
-    }
 
     @Override
     public void setView(RegistrationActivityMVP.View v) {

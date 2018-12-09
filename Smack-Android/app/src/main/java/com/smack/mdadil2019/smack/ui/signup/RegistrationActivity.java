@@ -4,7 +4,9 @@ import android.content.Intent;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.smack.mdadil2019.smack.R;
@@ -32,8 +34,9 @@ public class RegistrationActivity extends AppCompatActivity implements Registrat
     @BindView(R.id.textInputPasswordReg)
     TextInputEditText passwordEt;
 
-    @BindView(R.id.profileImageView)
-    ImageView profileIv;
+    @BindView(R.id.progressBarEmail)
+    ProgressBar pgBarRegistration;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,13 +50,6 @@ public class RegistrationActivity extends AppCompatActivity implements Registrat
         presenter.register();
     }
 
-    @OnClick(R.id.textViewSelectAvatar)void vatarPicker(){
-        presenter.pickAvatar();
-    }
-
-    @OnClick(R.id.textViewGenerateAvatarColor)void changeColorTapped(){
-        presenter.changeAvatarColor();
-    }
 
     @Override
     protected void onResume() {
@@ -82,18 +78,13 @@ public class RegistrationActivity extends AppCompatActivity implements Registrat
     }
 
     @Override
-    public void openAvatarPicker() {
-        /*
-        1. Create hidden fragment over register activity
-        2. VISIBLE when picker selected
-        3. Fragment will contain the tab + grid view for images/avatars
-         */
-
+    public void showProgressbar() {
+        pgBarRegistration.setVisibility(View.VISIBLE);
     }
 
     @Override
-    public void changeColor() {
-//        profileIv.setBackground();
+    public void hideProgressBar() {
+        pgBarRegistration.setVisibility(View.INVISIBLE);
     }
 
     @Override

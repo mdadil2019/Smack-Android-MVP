@@ -8,6 +8,10 @@ public interface LoginActivityMVP {
         void signUpActivity();
 
         void openNavigationDrawer();
+
+        void showProgressbar();
+
+        void hideProgressBar();
     }
 
     interface Presenter{

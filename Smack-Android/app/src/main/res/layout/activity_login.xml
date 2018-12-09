@@ -8,18 +8,6 @@
     >
 
     <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="@dimen/backBtnImageSize"
-        android:layout_height="@dimen/backBtnImageSize"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginTop="15dp"
-        android:layout_marginEnd="15dp"
-        android:layout_marginRight="15dp"
-        app:srcCompat="@mipmap/closebtn" />
-
-    <ImageView
         android:id="@+id/imageView2"
         android:layout_width="48dp"
         android:layout_height="48dp"
@@ -32,7 +20,7 @@
         app:srcCompat="@mipmap/smacklogo" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/textViewHeadEmail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
@@ -80,6 +68,7 @@
             android:layout_height="wrap_content"
             android:backgroundTint="@color/colorAccent"
             android:hint="Password"
+            android:inputType="textPassword"
             android:textColorHint="@color/colorAccent" />
     </android.support.design.widget.TextInputLayout>
 
@@ -106,5 +95,13 @@
         android:textColor="@color/colorAccent"
         android:textStyle="bold"
         app:fontFamily="@font/averia_sans_libre" />
+
+    <ProgressBar
+        android:layout_width="@dimen/progressBarSize"
+        android:layout_height="@dimen/progressBarSize"
+        android:layout_alignBottom="@+id/textViewContainerUsername"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/pgBarLogin"
+        android:visibility="invisible"/>
 
 </RelativeLayout>

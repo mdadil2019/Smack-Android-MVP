@@ -71,6 +71,7 @@ public class NavDrawerPresenter implements NavDrawerMVP.Presenter {
                 //creating an issue #Bug1
                 channels.add(channelResponse);
                 view.addChannelInList(channels);
+                view.hideProgressBar();
 
             }
 
@@ -81,11 +82,13 @@ public class NavDrawerPresenter implements NavDrawerMVP.Presenter {
     public void createChannel() {
         final String channelName = view.getCreateChannelName();
         final String channelDesc = view.getCreateChannelDescription();
+        view.showProgressbar();
         mSocket.emit("newChannel",channelName,channelDesc);
         mSocket.on(Socket.EVENT_ERROR, new Emitter.Listener() {
             @Override
             public void call(Object... args) {
                 view.showUIMessage(String.valueOf(args[0]) );
+                view.hideProgressBar();
             }
         });
     }
@@ -100,6 +103,7 @@ public class NavDrawerPresenter implements NavDrawerMVP.Presenter {
         4. return the response
 
          */
+       view.showProgressbar();
        mChannelService.getAllChannels("Bearer "+ sharedPrefs.getAuthToken(),"application/json; charset=utf-8")
                .subscribeOn(Schedulers.io())
                .observeOn(AndroidSchedulers.mainThread())
@@ -117,11 +121,13 @@ public class NavDrawerPresenter implements NavDrawerMVP.Presenter {
                    @Override
                    public void onError(Throwable e) {
                         view.showUIMessage(e.getMessage());
+                        view.hideProgressBar();
                    }
 
                    @Override
                    public void onComplete() {
                         view.addChannelInList(channels);
+                        view.hideProgressBar();
                    }
                });
 
@@ -130,6 +136,7 @@ public class NavDrawerPresenter implements NavDrawerMVP.Presenter {
 
     @Override
     public void openChatRoom(String channelName) {
+        view.showProgressbar();
         String id = "";
         for(ChannelResponse res : channels){
             if(res.getChannelName().equals(channelName)){
@@ -154,12 +161,14 @@ public class NavDrawerPresenter implements NavDrawerMVP.Presenter {
                     @Override
                     public void onError(Throwable e) {
                         view.showUIMessage(e.getMessage());
+                        view.hideProgressBar();
                     }
 
                     @Override
                     public void onComplete() {
                         //pass data to adapter to populate the messages
                         view.updateRecyclerView(messages);
+                        view.hideProgressBar();
                     }
                 });
     }
@@ -174,7 +183,7 @@ public class NavDrawerPresenter implements NavDrawerMVP.Presenter {
                 messageResponse.setMessageBody(args[0].toString());
                 messageResponse.setChannelId(args[2].toString());
                 messageResponse.setUserName(args[3].toString());
-//                messageResponse.setUserAvatar(args[4].toString());
+                messageResponse.setUserAvatar(args[4].toString());
 //                messageResponse.setAvatarColor(args[5].toString());
                 messageResponse.setTimeStamp(args[7].toString());
                 messages.add(messageResponse);
@@ -201,6 +210,7 @@ public class NavDrawerPresenter implements NavDrawerMVP.Presenter {
             String userAvatarName = sharedPrefs.getAvatarName();
             String userAvatarColor = sharedPrefs.getAvatarColor();
             mSocket.emit("newMessage", messsge,userId,id,userName,userAvatarName,userAvatarColor);
+            view.clearMessageText();
         }
     }
 }

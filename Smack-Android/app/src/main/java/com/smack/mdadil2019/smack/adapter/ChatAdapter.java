@@ -1,6 +1,7 @@
 package com.smack.mdadil2019.smack.adapter;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -9,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.mikhaellopez.circularimageview.CircularImageView;
 import com.smack.mdadil2019.smack.R;
 import com.smack.mdadil2019.smack.data.network.model.MessageResponse;
 
@@ -38,6 +40,14 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyChatViewHold
         holder.userNameTv.setText(messages.get(i).getUserName());
         holder.timeTv.setText(messages.get(i).getTimeStamp());
         holder.messageTv.setText(messages.get(i).getMessageBody());
+        if(messages.get(i).getUserAvatar()!=null && !messages.get(i).getUserAvatar().equals("")){
+
+            String avatarPath= "@drawable/" + messages.get(i).getUserAvatar().replace(".png","");
+
+            int avatarRes = mContext.getResources().getIdentifier(avatarPath,null,mContext.getPackageName());
+            Drawable drawable = mContext.getResources().getDrawable(avatarRes);
+            holder.avatarIv.setImageDrawable(drawable);
+        }
 
     }
 
@@ -57,7 +67,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyChatViewHold
         TextView messageTv;
 
         @BindView(R.id.imageViewMessage)
-        ImageView avatarIv;
+        CircularImageView avatarIv;
         public MyChatViewHolder(@NonNull View itemView) {
             super(itemView);
             ButterKnife.bind(this,itemView);

@@ -10,20 +10,17 @@ public interface RegistrationActivityMVP {
 
         String getUserName();
 
-        void openAvatarPicker();
-
-        void changeColor();
 
         void openNavigationDrawer();
+
+        void showProgressbar();
+
+        void hideProgressBar();
     }
 
     interface Presenter{
 
         void register();
-
-        void pickAvatar();
-
-        void changeAvatarColor();
 
         void setView(View v);
     }
