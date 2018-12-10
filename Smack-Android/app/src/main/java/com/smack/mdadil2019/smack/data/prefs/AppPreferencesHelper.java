@@ -10,6 +10,7 @@ public class AppPreferencesHelper implements PreferencesHelper{
     private static final String PREF_AVATAR_NAME_KEY = "PREF_AVATAR_NAME_KEY";
     private static final String PREF_AVATAR_COLOR_KEY = "PREF_AVATAR_COLOR_KEY";
     private static final String PREF_USER_ID_KEY = "PREF_USER_ID_KEY";
+    private static final String PREF_USER_LOGIN_KEY = "PREF_USER_LOGIN_KEY";
 
     private static final String LOCAL_PREF_KEY = "LOCAL_PREF_KEY";
     private final SharedPreferences mPrefs;
@@ -66,5 +67,15 @@ public class AppPreferencesHelper implements PreferencesHelper{
     @Override
     public String getAvatarColor() {
         return mPrefs.getString(PREF_AVATAR_COLOR_KEY,null);
+    }
+
+    @Override
+    public void setLoggedIn(boolean state) {
+        mPrefs.edit().putBoolean(PREF_USER_LOGIN_KEY,state).apply();
+    }
+
+    @Override
+    public boolean getLoggedInStatus() {
+        return mPrefs.getBoolean(PREF_USER_LOGIN_KEY,false);
     }
 }

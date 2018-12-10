@@ -5,6 +5,7 @@ import com.google.gson.GsonBuilder;
 import com.smack.mdadil2019.smack.data.network.ApiEndPoint;
 import com.smack.mdadil2019.smack.data.network.LoginService;
 import com.smack.mdadil2019.smack.data.network.model.LoginRequest;
+import com.smack.mdadil2019.smack.data.prefs.AppPreferencesHelper;
 import com.smack.mdadil2019.smack.ui.login.LoginActivityMVP;
 import com.smack.mdadil2019.smack.ui.login.LoginPresenter;
 
@@ -21,8 +22,9 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class LoginActivityModule {
 
     @Provides
-    public LoginActivityMVP.Presenter provideLoginActivityPresenter(LoginService loginService, LoginRequest loginRequest){
-        return new LoginPresenter(loginService,loginRequest);
+    public LoginActivityMVP.Presenter provideLoginActivityPresenter(LoginService loginService, LoginRequest loginRequest,
+                                                                    AppPreferencesHelper preferencesHelper){
+        return new LoginPresenter(loginService,loginRequest,preferencesHelper);
     }
 
     @Provides

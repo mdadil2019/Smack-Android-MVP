@@ -1,9 +1,16 @@
 package com.smack.mdadil2019.smack.data.network.model;
 
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.PrimaryKey;
+import android.support.annotation.NonNull;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+@Entity
 public class MessageResponse {
+
+
 
     @Expose
     @SerializedName("messageBody")
@@ -30,7 +37,10 @@ public class MessageResponse {
     private String id;
 
     @Expose
-    @SerializedName("timestamp")
+    @SerializedName("timeStamp")
+
+    @NonNull
+    @PrimaryKey
     private String timeStamp;
 
     public String getMessageBody() {

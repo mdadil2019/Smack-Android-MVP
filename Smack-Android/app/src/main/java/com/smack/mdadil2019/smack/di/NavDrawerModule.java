@@ -1,5 +1,7 @@
 package com.smack.mdadil2019.smack.di;
 
+import android.content.Context;
+
 import com.smack.mdadil2019.smack.data.network.ChannelService;
 import com.smack.mdadil2019.smack.data.network.MessageService;
 import com.smack.mdadil2019.smack.data.network.model.ChannelResponse;
@@ -15,9 +17,9 @@ import retrofit2.Retrofit;
 public class NavDrawerModule {
 
     @Provides
-    NavDrawerMVP.Presenter provideNavDrawerPresenter(AppPreferencesHelper appPreferencesHelper, ChannelService channelService,
+    NavDrawerMVP.Presenter provideNavDrawerPresenter(Context context, AppPreferencesHelper appPreferencesHelper, ChannelService channelService,
                                                      ChannelResponse channelResponse, MessageService messageService){
-        return new NavDrawerPresenter(appPreferencesHelper, channelService,channelResponse,messageService);
+        return new NavDrawerPresenter(context, appPreferencesHelper, channelService,channelResponse,messageService);
     }
 
     @Provides

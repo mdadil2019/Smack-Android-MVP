@@ -21,4 +21,9 @@ public interface PreferencesHelper {
     void saveId(String id);
 
     String getId();
+
+    void setLoggedIn(boolean state);
+
+    boolean getLoggedInStatus();
+
 }

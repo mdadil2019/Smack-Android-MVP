@@ -28,11 +28,16 @@ public interface NavDrawerMVP {
 
         void hideProgressBar();
 
+        //after logout
+        void showLoginScreen();
+
 
     }
 
     interface Presenter{
         void openChatRoom(String channelName);
+
+
 
         void createChannel();
 
@@ -44,6 +49,12 @@ public interface NavDrawerMVP {
 
         void getAllChannels();
 
+        void getAllChannelsOffline();
+
+        void getAllMessagesOffline(String channelName);
+
         void getMessage();
+
+        void logOut();
     }
 }

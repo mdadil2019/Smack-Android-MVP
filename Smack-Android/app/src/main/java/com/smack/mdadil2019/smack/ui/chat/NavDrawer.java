@@ -1,6 +1,8 @@
 package com.smack.mdadil2019.smack.ui.chat;
 
 import android.app.Dialog;
+import android.content.Intent;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -30,6 +32,7 @@ import com.smack.mdadil2019.smack.data.network.model.ChannelResponse;
 import com.smack.mdadil2019.smack.data.network.model.MessageResponse;
 import com.smack.mdadil2019.smack.data.prefs.AppPreferencesHelper;
 import com.smack.mdadil2019.smack.di.root.MyApp;
+import com.smack.mdadil2019.smack.ui.login.LoginActivity;
 
 import java.util.ArrayList;
 
@@ -165,7 +168,8 @@ public class NavDrawer extends AppCompatActivity
 
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_logout) {
+            presenter.logOut();
             return true;
         }
 
@@ -185,7 +189,13 @@ public class NavDrawer extends AppCompatActivity
 
          */
         currentChannelName = item.toString();
-        presenter.openChatRoom(currentChannelName);
+
+
+        //presenter will contain two methods 1. for network call 2. for local db call
+        if(isNetworkAvalable())
+            presenter.openChatRoom(currentChannelName);
+        else
+            presenter.getAllMessagesOffline(currentChannelName);
 
         cardView.setVisibility(View.VISIBLE);
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -267,7 +277,11 @@ public class NavDrawer extends AppCompatActivity
 
     }
 
-
+    @Override
+    public void showLoginScreen() {
+        startActivity(new Intent(this,LoginActivity.class));
+        finish();
+    }
 
     @Override
     public void clearMessageText() {
@@ -279,8 +293,16 @@ public class NavDrawer extends AppCompatActivity
     protected void onResume() {
         super.onResume();
         presenter.setView(this);
-        presenter.getAllChannels();
+        if(isNetworkAvalable())
+            presenter.getAllChannels();
+        else
+            presenter.getAllChannelsOffline();
         presenter.getMessage();
         presenter.loadAddedChannels();
+    }
+
+    private boolean isNetworkAvalable(){
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
+        return cm.getActiveNetworkInfo() !=null;
     }
 }

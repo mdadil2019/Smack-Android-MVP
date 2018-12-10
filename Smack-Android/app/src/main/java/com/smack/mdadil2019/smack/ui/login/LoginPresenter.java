@@ -4,6 +4,7 @@ package com.smack.mdadil2019.smack.ui.login;
 import com.smack.mdadil2019.smack.data.network.LoginService;
 import com.smack.mdadil2019.smack.data.network.model.LoginRequest;
 import com.smack.mdadil2019.smack.data.network.model.LoginResponse;
+import com.smack.mdadil2019.smack.data.prefs.AppPreferencesHelper;
 import com.smack.mdadil2019.smack.ui.login.LoginActivityMVP.View;
 
 import io.reactivex.Observable;
@@ -16,11 +17,13 @@ public class LoginPresenter implements LoginActivityMVP.Presenter {
 
     LoginService loginService;
     LoginRequest loginRequest;
+    AppPreferencesHelper mPrefs;
     Disposable disposable;
 
-    public LoginPresenter(LoginService loginApiService, LoginRequest loginReq){
+    public LoginPresenter(LoginService loginApiService, LoginRequest loginReq, AppPreferencesHelper preferencesHelper){
         loginService = loginApiService;
         loginRequest = loginReq;
+        mPrefs = preferencesHelper;
     }
 
     View view;
@@ -28,6 +31,8 @@ public class LoginPresenter implements LoginActivityMVP.Presenter {
     @Override
     public void setView(View view) {
         this.view = view;
+        if(mPrefs.getLoggedInStatus())
+            view.openNavigationDrawer();
     }
 
     @Override
@@ -66,6 +71,7 @@ public class LoginPresenter implements LoginActivityMVP.Presenter {
 
                 @Override
                 public void onComplete() {
+                    mPrefs.setLoggedIn(true);
                     view.showMessage("Login successful");
                     disposable.dispose();
                     view.openNavigationDrawer();
