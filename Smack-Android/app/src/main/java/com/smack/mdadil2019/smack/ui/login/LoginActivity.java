@@ -1,5 +1,6 @@
 package com.smack.mdadil2019.smack.ui.login;
 
+import android.Manifest;
 import android.content.Intent;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
@@ -8,10 +9,17 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.karumi.dexter.Dexter;
+import com.karumi.dexter.MultiplePermissionsReport;
+import com.karumi.dexter.PermissionToken;
+import com.karumi.dexter.listener.PermissionRequest;
+import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 import com.smack.mdadil2019.smack.R;
 import com.smack.mdadil2019.smack.di.root.MyApp;
 import com.smack.mdadil2019.smack.ui.chat.NavDrawer;
 import com.smack.mdadil2019.smack.ui.signup.RegistrationActivity;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -40,6 +48,8 @@ public class LoginActivity extends AppCompatActivity  implements LoginActivityMV
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
         ((MyApp)getApplication()).getApplicationComponent().inject(this);
+
+
     }
 
     @OnClick(R.id.loginBtn)void loginClicked(){
@@ -66,6 +76,22 @@ public class LoginActivity extends AppCompatActivity  implements LoginActivityMV
     @Override
     protected void onResume() {
         super.onResume();
+        Dexter.withActivity(this)
+                .withPermissions(Manifest.permission.INTERNET,Manifest.permission.ACCESS_WIFI_STATE,Manifest.permission.ACCESS_NETWORK_STATE)
+                .withListener(new MultiplePermissionsListener() {
+                    @Override
+                    public void onPermissionsChecked(MultiplePermissionsReport report) {
+                        if(!report.areAllPermissionsGranted()){
+                            Toast.makeText(LoginActivity.this, "You can't access the features of the app without permissions", Toast.LENGTH_SHORT).show();
+                            finish();
+                        }
+                    }
+
+                    @Override
+                    public void onPermissionRationaleShouldBeShown(List<PermissionRequest> permissions, PermissionToken token) {
+
+                    }
+                }).check();
         presenter.setView(this);
     }
 

@@ -69,24 +69,24 @@ public class NavDrawerPresenter implements NavDrawerMVP.Presenter {
 
     @Override
     public void loadAddedChannels() {
-        mSocket.on("channelCreated", new Emitter.Listener() {
-            @Override
-            public void call(Object... args) {
+        if(!mSocket.hasListeners("channelCreated")) {
+            mSocket.on("channelCreated", new Emitter.Listener() {
+                @Override
+                public void call(Object... args) {
 
 
-                ChannelResponse channelResponse = new ChannelResponse();
-                channelResponse.setChannelName(String.valueOf(args[0]));
-                channelResponse.setChannelDesc(String.valueOf(args[1]));
-                channelResponse.setChannelId(String.valueOf(args[2]));
+                    ChannelResponse channelResponse = new ChannelResponse();
+                    channelResponse.setChannelName(String.valueOf(args[0]));
+                    channelResponse.setChannelDesc(String.valueOf(args[1]));
+                    channelResponse.setChannelId(String.valueOf(args[2]));
 
-                //creating an issue #Bug1
-                channels.add(channelResponse);
-                view.addChannelInList(channels);
-                view.hideProgressBar();
+                    channels.add(channelResponse);
+                    view.addChannelInList(channels);
+                    view.hideProgressBar();
+                }
 
-            }
-
-        });
+            });
+        }
     }
 
     @Override
@@ -207,20 +207,22 @@ public class NavDrawerPresenter implements NavDrawerMVP.Presenter {
 
     @Override
     public void getMessage() {
-        mSocket.on("messageCreated", new Emitter.Listener() {
-            @Override
-            public void call(Object... args) {
-                MessageResponse messageResponse = new MessageResponse();
-                messageResponse.setMessageBody(args[0].toString());
-                messageResponse.setChannelId(args[2].toString());
-                messageResponse.setUserName(args[3].toString());
-                messageResponse.setUserAvatar(args[4].toString());
+        if(!mSocket.hasListeners("messageCreated")) {
+            mSocket.on("messageCreated", new Emitter.Listener() {
+                @Override
+                public void call(Object... args) {
+                    MessageResponse messageResponse = new MessageResponse();
+                    messageResponse.setMessageBody(args[0].toString());
+                    messageResponse.setChannelId(args[2].toString());
+                    messageResponse.setUserName(args[3].toString());
+                    messageResponse.setUserAvatar(args[4].toString());
 //                messageResponse.setAvatarColor(args[5].toString());
-                messageResponse.setTimeStamp(args[7].toString());
-                messages.add(messageResponse);
-                view.updateRecyclerView(messages);
-            }
-        });
+                    messageResponse.setTimeStamp(args[7].toString());
+                    messages.add(messageResponse);
+                    view.updateRecyclerView(messages);
+                }
+            });
+        }
     }
 
     @Override
@@ -240,7 +242,9 @@ public class NavDrawerPresenter implements NavDrawerMVP.Presenter {
             String userName = sharedPrefs.getUserName();
             String userAvatarName = sharedPrefs.getAvatarName();
             String userAvatarColor = sharedPrefs.getAvatarColor();
-            mSocket.emit("newMessage", messsge,userId,id,userName,userAvatarName,userAvatarColor);
+            Date date = new Date();
+            String timeStamp = String.valueOf(date.getTime());
+            mSocket.emit("newMessage", messsge,userId,id,userName,userAvatarName,userAvatarColor,"",timeStamp);
             view.clearMessageText();
         }
     }
@@ -287,4 +291,6 @@ public class NavDrawerPresenter implements NavDrawerMVP.Presenter {
                     }
                 });
     }
+
+
 }

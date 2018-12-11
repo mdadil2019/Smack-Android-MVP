@@ -253,8 +253,9 @@ public class NavDrawer extends AppCompatActivity
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
+                Menu menu = navigationView.getMenu();
+                menu.clear();
                 for(ChannelResponse response : channelResponses){
-                    Menu menu = navigationView.getMenu();
                     menu.add(response.getChannelName());
                 }
             }
@@ -300,6 +301,8 @@ public class NavDrawer extends AppCompatActivity
         presenter.getMessage();
         presenter.loadAddedChannels();
     }
+
+
 
     private boolean isNetworkAvalable(){
         ConnectivityManager cm = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
